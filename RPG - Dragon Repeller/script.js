@@ -18,14 +18,107 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
+const weapons = [
+  {
+    name: "stick",
+    power: 5,
+  },
+  {
+    name: "dagger",
+    power: 30,
+  },
+  {
+    name: "claw hammer",
+    power: 50,
+  },
+  {
+    name: "sword",
+    power: 100,
+  },
+];
 
-// initialize buttons
+const locations = [
+  {
+    name: "town square",
+    "button text": ["Go to store", "Go to cave", "Fight dragon"],
+    "button functions": [goStore, goCave, fightDragon],
+    text: 'You are in the town square. You see a sign that says "Store".',
+  },
+  {
+    name: "store",
+    "button text": [
+      "Buy 10 health (10 gold)",
+      "Buy weapon (30 gold)",
+      "Go to town square",
+    ],
+    "button functions": [buyHealth, buyWeapon, goTown],
+    text: "You enter the store.",
+  },
+  {
+    name: "cave",
+    "button text": ["Fight slime", "Fight fanged beast", "Go to town square"],
+    "button functions": [fightSlime, fightBeast, goTown],
+    text: "You enter the cave. You see some monsters.",
+  },
+];
+
+/*const cat = {
+  name: "Whiskers",
+  "Number of legs":4
+};
+console.log(cat["Number of legs"]);*/
+
+// initialize buttons function呼び出しの別の方法、マウス等で呼び出すときに使用。普通の関数は即時呼び出し
+button1.onclick = goStore;
+button2.onclick = goCave;
+button3.onclick = fightDragon;
+
+// 関数をアプデするためのアプデ関数
+function update(location) {
+  button1.innerText = location["button text"][0];
+  button2.innerText = location["button text"][1];
+  button3.innerText = location["button text"][2];
+  button1.onclick = location["button functions"][0];
+  button2.onclick = location["button functions"][1];
+  button3.onclick = location["button functions"][2];
+  // \"〇〇\"で文字内にダブクオつく
+  text.innerText = location.text;
+}
+
+function goTown() {
+  update(locations[0]);
+}
 function goStore() {
-  console.log("Going to store.");
+  update(locations[1]);
 }
 function goCave() {
-  console.log("Going to cave.");
+  update(locations[2]);
 }
-function fightDragon() {
-  console.log("Fighting dragon.");
+function fightDragon() {}
+
+// goStore内のfunction
+function buyHealth() {
+  if (gold >= 10) {
+    gold -= 10;
+    health += 10;
+    goldText.innerText = gold;
+    healthText.innerText = health;
+  } else {
+    text.innerText = "You do not have enough gold to buy health.";
+  }
 }
+function buyWeapon() {
+  if (gold >= 30) {
+    gold -= 30;
+    // currentWeaponはweaponの配列の値
+    currentWeapon++;
+    goldText.innerText = gold;
+    let newWeapon = weapons[currentWeapon].name;
+    text.innerText = "You now have a " + newWeapon + ".";
+  } else {
+    text.innerText = "You do not have enough gold to buy weapon.";
+  }
+}
+// goCave内のfunction
+function fightSlime() {}
+function fightBeast() {}
