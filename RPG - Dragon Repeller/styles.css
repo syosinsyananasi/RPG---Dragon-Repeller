@@ -37,6 +37,7 @@ body {
 }
 
 button {
+  /* カーソルあてるとポインター変わる */
   cursor: pointer;
   color: #0a0a23;
   /* background-colorは一見必要ないように感じるがimageが読み込まれる間、
